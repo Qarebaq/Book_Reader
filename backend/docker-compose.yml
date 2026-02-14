@@ -7,8 +7,9 @@ services:
       POSTGRES_USER: ketabkhan
       POSTGRES_PASSWORD: ketabkhan_dev_password
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ketabkhan_pgdata:/var/lib/postgresql/data
+
 volumes:
   ketabkhan_pgdata:
