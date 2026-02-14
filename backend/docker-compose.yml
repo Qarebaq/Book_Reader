@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16
+    container_name: ketabkhan_db
+    environment:
+      POSTGRES_DB: ketabkhan
+      POSTGRES_USER: ketabkhan
+      POSTGRES_PASSWORD: ketabkhan_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ketabkhan_pgdata:/var/lib/postgresql/data
+volumes:
+  ketabkhan_pgdata:
