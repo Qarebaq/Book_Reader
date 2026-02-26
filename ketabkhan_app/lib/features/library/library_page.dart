@@ -3,14 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/api_client.dart';
 import '../auth/auth_controller.dart';
 import 'library_api.dart';
-import 'library_models.dart';
+import '../books/book_models.dart';
+import '../reader/reader_page.dart';
 
 final libraryApiProvider = Provider<LibraryApi>((ref) {
   final client = ref.read(apiClientProvider);
   return LibraryApi(client);
 });
 
-final libraryProvider = FutureProvider<List<Book>>((ref) async {
+final libraryProvider = FutureProvider<List<BookSummary>>((ref) async {
   final api = ref.read(libraryApiProvider);
   return api.myLibrary();
 });
@@ -26,6 +27,10 @@ class LibraryPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('کتابخانه'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.store),
+            onPressed: () => Navigator.of(context).pushNamed('/catalog'),
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
@@ -45,6 +50,12 @@ class LibraryPage extends ConsumerWidget {
               title: Text(b.title),
               subtitle: Text(b.publisher),
               leading: const Icon(Icons.menu_book),
+              trailing: Text('${b.price} تومان'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => ReaderPage(bookId: b.id, title: b.title)),
+                );
+              },
             );
           },
         ),
